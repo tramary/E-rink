@@ -24,11 +24,15 @@ chrome.browserAction.onClicked.addListener(function(tab) {
    
 });
 
-chrome.runtime.onMessage.addListener(loopcheck);
+chrome.runtime.onMessage.addListener(function(V){
+    setTimeout(loopcheck,5000,V)
+    return　true;
+
+});
 
 let linksum:number = -1;
 
-function loopcheck({lsaki,ltxt,}){
+function loopcheck({lsaki,ltxt}){
      console.log(ltxt);
      console.log(lsaki);
      let endflag:boolean = false;
@@ -48,6 +52,7 @@ function loopcheck({lsaki,ltxt,}){
         qsa.forEach(function(q:HTMLAnchorElement){
             if(q.innerHTML==ltxt){
                 //  alert("が見つかりました");
+                
                 endflag=true;
                 linksum+=1;
                 loopcheck({lsaki:q.getAttribute("href"),ltxt:q.innerHTML})
@@ -56,16 +61,11 @@ function loopcheck({lsaki,ltxt,}){
 
         })
 
-        
-        
-        
-        
-
-    }
-    
-    )
+    })
     
     let el = xhr.send();
+
+    
 
     if (!endflag&&linksum>=0){
         linksum=-1;
@@ -74,5 +74,5 @@ function loopcheck({lsaki,ltxt,}){
            chrome.tabs.sendMessage(tabs[0].id,{url:lsaki},function(){})
        })
    }
-    return true;
+  
 }

@@ -15,9 +15,12 @@ chrome.browserAction.onClicked.addListener(function (tab) {
         alert("message send!");
     });
 });
-chrome.runtime.onMessage.addListener(loopcheck);
+chrome.runtime.onMessage.addListener(function (V) {
+    setTimeout(loopcheck, 5000, V);
+    return true;
+});
 let linksum = -1;
-function loopcheck({ lsaki, ltxt, }) {
+function loopcheck({ lsaki, ltxt }) {
     console.log(ltxt);
     console.log(lsaki);
     let endflag = false;
@@ -44,5 +47,4 @@ function loopcheck({ lsaki, ltxt, }) {
             chrome.tabs.sendMessage(tabs[0].id, { url: lsaki }, function () { });
         });
     }
-    return true;
 }
