@@ -3,6 +3,14 @@
 // イベントに対するControler的な役割にすると良さそう
 //
 // 直下の指定だと、ページが読み込まれるごとにアラートが出力される。いまは、コメント
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 // アドレスバーの右側の拡張機能のアイコンをクリックした際のイベント
 // ※ manifest.jsonの"browser_action"=>"default_popup"の指定があると無効になる
 //xmlhttprequest()を作る
@@ -15,36 +23,62 @@ chrome.browserAction.onClicked.addListener(function (tab) {
         alert("message send!");
     });
 });
-chrome.runtime.onMessage.addListener(function (V) {
-    setTimeout(loopcheck, 5000, V);
+chrome.runtime.onMessage.addListener(function (V, sender, sendResponse) {
+    sendResponse(loopcheck(V));
     return true;
 });
 let linksum = -1;
 function loopcheck({ lsaki, ltxt }) {
-    console.log(ltxt);
-    console.log(lsaki);
-    let endflag = false;
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", lsaki);
-    xhr.responseType = "document";
-    xhr.addEventListener("loadend", function () {
-        let el = xhr.response;
-        let qsa = el.querySelectorAll("a");
-        qsa.forEach(function (q) {
-            if (q.innerHTML == ltxt) {
-                //  alert("が見つかりました");
-                endflag = true;
-                linksum += 1;
-                loopcheck({ lsaki: q.getAttribute("href"), ltxt: q.innerHTML });
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log(ltxt);
+        console.log(lsaki);
+        let endflag = false;
+        let res;
+        res = yield httpreq(lsaki, ltxt);
+        while (res != "notfound") {
+            linksum += 1;
+            res = yield httpreq(res, ltxt);
+        }
+        if (linksum >= 0) {
+            linksum = -1;
+            // alert("loopend")
+            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, { url: res }, function () { });
+            });
+        }
     });
-    let el = xhr.send();
-    if (!endflag && linksum >= 0) {
-        linksum = -1;
-        // alert("loopend")
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, { url: lsaki }, function () { });
-        });
-    }
+}
+function httpreq(url, txt) {
+    return new Promise(function (resolve) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.responseType = "document";
+        // xhr.addEventListener("loadend",function(){
+        //     let el:HTMLDocument = xhr.response;
+        //     let qsa = el.querySelectorAll("a");
+        //     let rturl;
+        //     qsa.forEach(function(q:HTMLAnchorElement){
+        //         if(q.innerHTML==txt){
+        //             //  alert("が見つかりました");
+        //             loopcheck({lsaki:q.getAttribute("href"),ltxt:q.innerHTML})
+        //             rturl=q.getAttribute("href");
+        //         }
+        //     })
+        // })
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let el = xhr.response;
+                let qsa = el.querySelectorAll("a");
+                let rturl = "notfound";
+                qsa.forEach(function (q) {
+                    if (q.innerHTML == txt) {
+                        //  alert("が見つかりました");
+                        rturl = q.getAttribute("href");
+                    }
+                });
+                resolve(rturl);
+            }
+        };
+    });
 }
