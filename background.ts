@@ -38,19 +38,23 @@ async function loopcheck({lsaki,ltxt}){
      console.log(lsaki);
      let endflag:boolean = false;
     let res;
-     res = await httpreq(lsaki,ltxt);
+    let rt; 
+    res = await httpreq(lsaki,ltxt);
+    rt = lsaki; 
+    alert(res);
      while(res!="notfound"){
          linksum+=1;
+         rt = res;
          res = await httpreq(res,ltxt);
+         alert(res);
      }
-
 
     if (linksum>=0){
         linksum=-1;
-        // alert("loopend")
+        alert("loopend")
        chrome.tabs.query({active:true,currentWindow:true},function(tabs){
-           
-           chrome.tabs.sendMessage(tabs[0].id,{url:res},function(){})
+           alert("sendmessage"+rt);
+           chrome.tabs.sendMessage(tabs[0].id,{url:rt},function(){})
        })
        
    }
@@ -60,7 +64,10 @@ async function loopcheck({lsaki,ltxt}){
 function httpreq(url,txt){
     return new Promise(function(resolve){
     let xhr = new XMLHttpRequest();
-    xhr.open("GET",url);
+    alert("getリクエスト"+url);
+    let activurl=false;//作業ここで終わってる　URL有効性チェック
+    if(url.indexOf("http")>-1){activurl=true;}
+    if(activurl){xhr.open("GET",url);}
     xhr.responseType="document";
     // xhr.addEventListener("loadend",function(){
         
@@ -80,7 +87,7 @@ function httpreq(url,txt){
 
     //     })
     // })
-    xhr.send();
+    if(activurl){xhr.send();}
 
     xhr.onreadystatechange = function(){
         if(xhr.readyState === 4 && xhr.status === 200){

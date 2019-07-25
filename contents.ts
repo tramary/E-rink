@@ -1,8 +1,8 @@
 
 chrome.runtime.onMessage.addListener(
     function(request,sender,callback){
-        // alert("content moved");
-        // alert(request.url);
+         alert("content moved");
+         alert(request.url);
         // alert("コンテンツ側画面遷移メッセージ受領")
         window.location.href = request.url;
        return true;
@@ -18,7 +18,7 @@ document.addEventListener('click',function(this){
     let ltxt = el.innerHTML;
     
      chrome.runtime.sendMessage({"lsaki":lsaki,"ltxt":ltxt},function(response){
-       alert(response);
+      
       //window.location.href = response;
        })
      return true;
