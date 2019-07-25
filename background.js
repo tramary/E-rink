@@ -37,7 +37,6 @@ function loopcheck({ lsaki, ltxt }) {
         let rt;
         res = yield httpreq(lsaki, ltxt);
         rt = lsaki;
-        alert(res);
         while (res != "notfound") {
             linksum += 1;
             rt = res;
@@ -46,9 +45,9 @@ function loopcheck({ lsaki, ltxt }) {
         }
         if (linksum >= 0) {
             linksum = -1;
-            alert("loopend");
+            //alert("loopend")
             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                alert("sendmessage" + rt);
+                //alert("sendmessage"+rt);
                 chrome.tabs.sendMessage(tabs[0].id, { url: rt }, function () { });
             });
         }
@@ -57,38 +56,30 @@ function loopcheck({ lsaki, ltxt }) {
 function httpreq(url, txt) {
     return new Promise(function (resolve) {
         let xhr = new XMLHttpRequest();
-        alert("getリクエスト" + url);
+        //alert("getリクエスト"+url);
         let activurl = false; //作業ここで終わってる　URL有効性チェック
         if (url.indexOf("http") > -1) {
             activurl = true;
         }
-        if (activurl) {
-            xhr.open("GET", url);
+        if (!activurl) {
+            alert("URLがHTTPで始まってません");
         }
+        xhr.open("GET", url);
         xhr.responseType = "document";
-        // xhr.addEventListener("loadend",function(){
-        //     let el:HTMLDocument = xhr.response;
-        //     let qsa = el.querySelectorAll("a");
-        //     let rturl;
-        //     qsa.forEach(function(q:HTMLAnchorElement){
-        //         if(q.innerHTML==txt){
-        //             //  alert("が見つかりました");
-        //             loopcheck({lsaki:q.getAttribute("href"),ltxt:q.innerHTML})
-        //             rturl=q.getAttribute("href");
-        //         }
-        //     })
-        // })
         if (activurl) {
             xhr.send();
         }
+        else {
+            xhr.send();
+        } //後々消す
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let el = xhr.response;
                 let qsa = el.querySelectorAll("a");
                 let rturl = "notfound";
                 qsa.forEach(function (q) {
-                    if (q.innerHTML == txt) {
-                        //  alert("が見つかりました");
+                    if (q.innerHTML.indexOf(txt) > -1) {
+                        // alert("が見つかりました");
                         rturl = q.getAttribute("href");
                     }
                 });
