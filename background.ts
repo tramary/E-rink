@@ -33,18 +33,19 @@ chrome.runtime.onMessage.addListener(function(V,sender,sendResponse){
 
 let linksum:number = -1;
 
-async function loopcheck({lsaki,ltxt}){
+async function loopcheck({lsaki,ltxt,basedom}){//string,string,htmldocument
      console.log(ltxt);
      console.log(lsaki);
      let endflag:boolean = false;
     let res;
     let rt; 
-    res = await httpreq(lsaki,ltxt);
+    alert(basedom);
+    res = await httpreq(lsaki,ltxt,basedom);
     rt = lsaki; 
      while(res!="notfound"){
          linksum+=1;
          rt = res;
-         res = await httpreq(res,ltxt);
+         res = await httpreq(res,ltxt,basedom);
          alert(res);
      }
 
@@ -60,13 +61,23 @@ async function loopcheck({lsaki,ltxt}){
 
 }
 
-function httpreq(url,txt){
+async function httpreq(url:string,txt:string,basedomain:string){//asyncつけるのはどっちかわかんね　調べる
     return new Promise(function(resolve){
     let xhr = new XMLHttpRequest();
-    //alert("getリクエスト"+url);
+    let httnum:number = url.indexOf("http")
+    alert(url+"いんでおぶ"+httnum);
     let activurl=false;//作業ここで終わってる　URL有効性チェック
-    if(url.indexOf("http")>-1){activurl=true;}
-    if(!activurl){alert("URLがHTTPで始まってません")}
+    if(httnum==0){activurl=true;}
+    if(!activurl){alert("URLがHTTPで始まってません");
+        if(httnum>0){url = url.slice(httnum)}
+        if(httnum==-1){
+            alert("URLにHTTPが含まれていません元ドメイン"+basedomain)
+            
+            if(url.indexOf("/")==0){url="http://"+url;//urlとhttp間にbasedomainを入れるのやめてみた
+                alert("整形後URL"+url);
+        }
+    }    
+    }
     xhr.open("GET",url);
     xhr.responseType="document";
 

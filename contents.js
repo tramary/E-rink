@@ -8,7 +8,7 @@ document.addEventListener('click', function () {
     let elp = el.parentElement;
     let lsaki = el.getAttribute("href");
     let ltxt = el.innerHTML;
-    chrome.runtime.sendMessage({ "lsaki": lsaki, "ltxt": ltxt }, function (response) {
+    chrome.runtime.sendMessage({ "lsaki": lsaki, "ltxt": ltxt, "basedom": this.domain }, function (response) {
         //window.location.href = response;
     });
     return true;

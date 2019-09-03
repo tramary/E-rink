@@ -28,19 +28,20 @@ chrome.runtime.onMessage.addListener(function (V, sender, sendResponse) {
     return true;
 });
 let linksum = -1;
-function loopcheck({ lsaki, ltxt }) {
+function loopcheck({ lsaki, ltxt, basedom }) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log(ltxt);
         console.log(lsaki);
         let endflag = false;
         let res;
         let rt;
-        res = yield httpreq(lsaki, ltxt);
+        alert(basedom);
+        res = yield httpreq(lsaki, ltxt, basedom);
         rt = lsaki;
         while (res != "notfound") {
             linksum += 1;
             rt = res;
-            res = yield httpreq(res, ltxt);
+            res = yield httpreq(res, ltxt, basedom);
             alert(res);
         }
         if (linksum >= 0) {
@@ -53,38 +54,51 @@ function loopcheck({ lsaki, ltxt }) {
         }
     });
 }
-function httpreq(url, txt) {
-    return new Promise(function (resolve) {
-        let xhr = new XMLHttpRequest();
-        //alert("getリクエスト"+url);
-        let activurl = false; //作業ここで終わってる　URL有効性チェック
-        if (url.indexOf("http") > -1) {
-            activurl = true;
-        }
-        if (!activurl) {
-            alert("URLがHTTPで始まってません");
-        }
-        xhr.open("GET", url);
-        xhr.responseType = "document";
-        if (activurl) {
-            xhr.send();
-        }
-        else {
-            xhr.send();
-        } //後々消す
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                let el = xhr.response;
-                let qsa = el.querySelectorAll("a");
-                let rturl = "notfound";
-                qsa.forEach(function (q) {
-                    if (q.innerHTML.indexOf(txt) > -1) {
-                        // alert("が見つかりました");
-                        rturl = q.getAttribute("href");
-                    }
-                });
-                resolve(rturl);
+function httpreq(url, txt, basedomain) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise(function (resolve) {
+            let xhr = new XMLHttpRequest();
+            let httnum = url.indexOf("http");
+            alert(url + "いんでおぶ" + httnum);
+            let activurl = false; //作業ここで終わってる　URL有効性チェック
+            if (httnum == 0) {
+                activurl = true;
             }
-        };
+            if (!activurl) {
+                alert("URLがHTTPで始まってません");
+                if (httnum > 0) {
+                    url = url.slice(httnum);
+                }
+                if (httnum == -1) {
+                    alert("URLにHTTPが含まれていません元ドメイン" + basedomain);
+                    if (url.indexOf("/") == 0) {
+                        url = "http://" + url; //urlとhttp間にbasedomainを入れるのやめてみた
+                        alert("整形後URL" + url);
+                    }
+                }
+            }
+            xhr.open("GET", url);
+            xhr.responseType = "document";
+            if (activurl) {
+                xhr.send();
+            }
+            else {
+                xhr.send();
+            } //後々消す
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let el = xhr.response;
+                    let qsa = el.querySelectorAll("a");
+                    let rturl = "notfound";
+                    qsa.forEach(function (q) {
+                        if (q.innerHTML.indexOf(txt) > -1) {
+                            // alert("が見つかりました");
+                            rturl = q.getAttribute("href");
+                        }
+                    });
+                    resolve(rturl);
+                }
+            };
+        });
     });
 }
