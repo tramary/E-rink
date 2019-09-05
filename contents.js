@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(function (request, sender, callback) {
-    // alert("コンテンツ側画面遷移メッセージ受領")
+    alert("コンテンツ側画面遷移メッセージ受領" + request.url);
     window.location.href = request.url;
     return true;
 });
@@ -8,8 +8,8 @@ document.addEventListener('click', function () {
     let elp = el.parentElement;
     let lsaki = el.getAttribute("href");
     let ltxt = el.innerHTML;
-    chrome.runtime.sendMessage({ "lsaki": lsaki, "ltxt": ltxt, "basedom": this.domain }, function (response) {
-        //window.location.href = response;
+    chrome.runtime.sendMessage({ "lsaki": lsaki, "ltxt": ltxt, "basedom": this.domain, "type": "main" }, function (response) {
+        //ここに書いた処理はどうやら元のタブにて適用されるらしい　それもそうか。
     });
     return true;
 });

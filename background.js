@@ -24,7 +24,9 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     });
 });
 chrome.runtime.onMessage.addListener(function (V, sender, sendResponse) {
-    sendResponse(loopcheck(V));
+    let rt = loopcheck(V);
+    console.log("メッセ送る直前" + rt.then);
+    sendResponse(rt);
     return true;
 });
 let linksum = -1;
@@ -35,14 +37,12 @@ function loopcheck({ lsaki, ltxt, basedom }) {
         let endflag = false;
         let res;
         let rt;
-        alert(basedom);
         res = yield httpreq(lsaki, ltxt, basedom);
         rt = lsaki;
         while (res != "notfound") {
             linksum += 1;
             rt = res;
             res = yield httpreq(res, ltxt, basedom);
-            alert(res);
         }
         if (linksum >= 0) {
             linksum = -1;
@@ -59,7 +59,6 @@ function httpreq(url, txt, basedomain) {
         return new Promise(function (resolve) {
             let xhr = new XMLHttpRequest();
             let httnum = url.indexOf("http");
-            alert(url + "いんでおぶ" + httnum);
             let activurl = false; //作業ここで終わってる　URL有効性チェック
             if (httnum == 0) {
                 activurl = true;
@@ -88,11 +87,11 @@ function httpreq(url, txt, basedomain) {
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let el = xhr.response;
+                    console.log(xhr.response + "XHR読み込み完了");
                     let qsa = el.querySelectorAll("a");
                     let rturl = "notfound";
                     qsa.forEach(function (q) {
                         if (q.innerHTML.indexOf(txt) > -1) {
-                            // alert("が見つかりました");
                             rturl = q.getAttribute("href");
                         }
                     });

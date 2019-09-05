@@ -25,7 +25,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 
 chrome.runtime.onMessage.addListener(function(V,sender,sendResponse){
-    sendResponse(loopcheck(V))
+    let rt =  loopcheck(V);
+    console.log("メッセ送る直前"+rt.then);
+     sendResponse(rt);
     
     return　true;
 
@@ -39,14 +41,12 @@ async function loopcheck({lsaki,ltxt,basedom}){//string,string,htmldocument
      let endflag:boolean = false;
     let res;
     let rt; 
-    alert(basedom);
     res = await httpreq(lsaki,ltxt,basedom);
     rt = lsaki; 
      while(res!="notfound"){
          linksum+=1;
          rt = res;
          res = await httpreq(res,ltxt,basedom);
-         alert(res);
      }
 
     if (linksum>=0){
@@ -65,7 +65,7 @@ async function httpreq(url:string,txt:string,basedomain:string){//asyncつける
     return new Promise(function(resolve){
     let xhr = new XMLHttpRequest();
     let httnum:number = url.indexOf("http")
-    alert(url+"いんでおぶ"+httnum);
+    
     let activurl=false;//作業ここで終わってる　URL有効性チェック
     if(httnum==0){activurl=true;}
     if(!activurl){alert("URLがHTTPで始まってません");
@@ -78,21 +78,22 @@ async function httpreq(url:string,txt:string,basedomain:string){//asyncつける
         }
     }    
     }
-    xhr.open("GET",url);
+     xhr.open("GET",url);
     xhr.responseType="document";
 
     if(activurl){xhr.send();}else{xhr.send();}//後々消す
 
-    xhr.onreadystatechange = function(){
+    xhr.onreadystatechange =  function(){
         if(xhr.readyState === 4 && xhr.status === 200){
-        let el:HTMLDocument = xhr.response;
+        let el:HTMLDocument =  xhr.response;
+        console.log(xhr.response+"XHR読み込み完了");
         let qsa = el.querySelectorAll("a");
 
         let rturl = "notfound";
        
         qsa.forEach(function(q:HTMLAnchorElement){
             if(q.innerHTML.indexOf(txt)>-1){
-                 // alert("が見つかりました");
+                 
                 rturl=q.getAttribute("href");
             }
 
