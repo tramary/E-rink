@@ -24,8 +24,9 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     });
 });
 chrome.runtime.onMessage.addListener(function (V, sender, sendResponse) {
+    console.log("call loopcheck:" + V.lsaki);
     let rt = loopcheck(V);
-    console.log("メッセ送る直前" + rt.then);
+    console.log("メッセ送る直前" + rt);
     sendResponse(rt);
     return true;
 });
@@ -44,19 +45,21 @@ function loopcheck({ lsaki, ltxt, basedom }) {
             rt = res;
             res = yield httpreq(res, ltxt, basedom);
         }
-        if (linksum >= 0) {
+        console.log(res + "れす:RT" + rt + "さむ" + linksum);
+        if (linksum != -1) {
             linksum = -1;
             //alert("loopend")
             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                //alert("sendmessage"+rt);
-                chrome.tabs.sendMessage(tabs[0].id, { url: rt }, function () { });
+                console.log("sendmessage" + rt);
+                // chrome.tabs.sendMessage(tabs[0].id,{url:rt},function(){})
+                chrome.tabs.create({ url: rt });
             });
         }
     });
 }
 function httpreq(url, txt, basedomain) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise(function (resolve) {
+        return new Promise(yield function (resolve) {
             let xhr = new XMLHttpRequest();
             let httnum = url.indexOf("http");
             let activurl = false; //作業ここで終わってる　URL有効性チェック
@@ -78,13 +81,9 @@ function httpreq(url, txt, basedomain) {
             }
             xhr.open("GET", url);
             xhr.responseType = "document";
-            if (activurl) {
-                xhr.send();
-            }
-            else {
-                xhr.send();
-            } //後々消す
+            xhr.send();
             xhr.onreadystatechange = function () {
+                console.log(xhr.readyState + "&" + xhr.status);
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let el = xhr.response;
                     console.log(xhr.response + "XHR読み込み完了");
@@ -92,9 +91,11 @@ function httpreq(url, txt, basedomain) {
                     let rturl = "notfound";
                     qsa.forEach(function (q) {
                         if (q.innerHTML.indexOf(txt) > -1) {
+                            console.log("rturl代入前" + q.getAttribute("href"));
                             rturl = q.getAttribute("href");
                         }
                     });
+                    console.log("リゾルブ" + rturl);
                     resolve(rturl);
                 }
             };

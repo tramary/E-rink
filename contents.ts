@@ -2,11 +2,13 @@
 chrome.runtime.onMessage.addListener(
     function(request,sender,callback){
          
-        alert("コンテンツ側画面遷移メッセージ受領"+request.url)
+        //alert("コンテンツ側画面遷移メッセージ受領")
         window.location.href = request.url;
-       return true;
+
     }
 )
+
+
 
 document.addEventListener('click',function(this){
     let el:HTMLElement = <HTMLElement>event.target;
@@ -17,7 +19,6 @@ document.addEventListener('click',function(this){
     let ltxt = el.innerHTML;
     
      chrome.runtime.sendMessage({"lsaki":lsaki,"ltxt":ltxt,"basedom":this.domain,"type":"main"},function(response){
-      
         //ここに書いた処理はどうやら元のタブにて適用されるらしい　それもそうか。
        })
      return true;

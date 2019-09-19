@@ -1,7 +1,6 @@
 chrome.runtime.onMessage.addListener(function (request, sender, callback) {
-    alert("コンテンツ側画面遷移メッセージ受領" + request.url);
+    //alert("コンテンツ側画面遷移メッセージ受領")
     window.location.href = request.url;
-    return true;
 });
 document.addEventListener('click', function () {
     let el = event.target;
