@@ -41,6 +41,11 @@ function loopcheck({ lsaki, ltxt, basedom }) {
         res = yield httpreq(lsaki, ltxt, basedom);
         rt = lsaki;
         while (res != "notfound") {
+            //上限が来たらループ強制終了して無理やり見つからなかった扱いに
+            if (linksum > 3) {
+                linksum = -1;
+                break;
+            }
             linksum += 1;
             rt = res;
             res = yield httpreq(res, ltxt, basedom);
