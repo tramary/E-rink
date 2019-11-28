@@ -6,7 +6,7 @@
     "description": "Chrome拡張機能を自作してみるテスト",
     "browser_action": {
           "default_icon": "icon.png",
-          "default_title": "めりちゃんてすと",
+          "default_title": "てすと",
           "default_popup": "popup.html"
     },
     "icons" : {

@@ -19,13 +19,13 @@ document.addEventListener('click',function(this){
     let ltxt = el.innerHTML;
 
     chrome.storage.local.get(['mode'], function(result) {
-
-      if(result.mode == 'on'){
-        chrome.runtime.sendMessage({"lsaki":lsaki,"ltxt":ltxt,"basedom":this.domain,"type":"main"},function(response){
-           //ここに書いた処理はどうやら元のタブにて適用されるらしい　それもそうか。
-        })
-      }
-    })
+      
+     if(result.mode == 'on'){
+       chrome.runtime.sendMessage({"lsaki":lsaki,"ltxt":ltxt,"basedom":this.domain,"type":"main"},function(response){
+        //ここに書いた処理はどうやら元のタブにて適用されるらしい　それもそうか。
+       })
+     }
+   })
      return true;
 })
 
