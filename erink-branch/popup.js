@@ -2,10 +2,7 @@
 $(window).on('load', function() {
 	chrome.storage.local.get(['mode'], function(result) {
 		console.log(result.mode);
-		if(!result.mode){
-			//backgroundにデフォルト設定書くべきかも
-			chrome.storage.local.set({mode: 'off'});
-		}else if (result.mode == 'on') {
+ 		if(result.mode == 'on') {
 			$('.btn-real').addClass('push');
 		}
   });
@@ -30,16 +27,9 @@ const openPage = function(url) {
 };
 
 $('#options').click(function () {
-  openPage(chrome.extension.getURL('elopt.html'));
+  openPage(chrome.extension.getURL('./html/elopt.html'));
 });
 
 $('#help').click(function () {
-  openPage(chrome.extension.getURL('help.html'));
-});
-
-var BG = chrome.extension.getBackgroundPage();
-var paused = BG.adblockIsPaused();
-
-$('#div_pause_adblock').click(function () {
-      BG.adblockIsPaused(true);
+  openPage(chrome.extension.getURL('./html/help.html'));
 });

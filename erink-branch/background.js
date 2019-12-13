@@ -1,4 +1,4 @@
-// 
+//
 // background.jsは、拡張機能が有効だと常に読み込まれているjs
 // イベントに対するControler的な役割にすると良さそう
 //
@@ -31,6 +31,18 @@ chrome.runtime.onMessage.addListener(function (V, sender, sendResponse) {
     sendResponse(rt);
     return true;
 });
+chrome.storage.local.get(['mode'], function (result) {
+    if (!result.mode) {
+        //デフォルト設定
+        chrome.storage.local.set({ mode: 'off' });
+    }
+});
+chrome.storage.local.get(['count'], function (result) {
+    if (!result.count) {
+        //デフォルト設定
+        chrome.storage.local.set({ count: '3' });
+    }
+});
 let linksum = -1;
 function loopcheck({ lsaki, ltxt, basedom }) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -39,11 +51,15 @@ function loopcheck({ lsaki, ltxt, basedom }) {
         let endflag = false;
         let res;
         let rt;
+        let lcnt;
+        chrome.storage.local.get(['count'], function (result) {
+            lcnt = parseInt(result.count);
+        });
         res = yield httpreq(lsaki, ltxt, basedom);
         rt = lsaki;
         while (res != "notfound") {
             //上限が来たらループ強制終了して無理やり見つからなかった扱いに
-            if (linksum > 3) {
+            if (linksum > lcnt) {
                 linksum = -1;
                 break;
             }

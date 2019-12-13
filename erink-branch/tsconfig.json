@@ -62,12 +62,15 @@
   },
   "compileOnSave": true,
   "filesGlob": [
-   "./../*.ts",
+   "./*.ts",
    "!./node_modules/**/*.ts",
    "!./bower_components/**/*.ts",
-   "!./typings/**/*.ts"
+   "!./typings/**/*.ts",
   ],
-  "files":["node_modules/@types/chrome/index.d.ts"
+  "files":[
+    "node_modules/@types/chrome/index.d.ts",
+    "./background.ts",
+    "./contents.ts"
   ]
 
 }
