@@ -76,6 +76,14 @@
       "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/chrome/index.d.ts": {
         "version": "8f24b21d8cbec116c0ba13b20fd38142119be769d297486191ab3fae6370570b",
         "signature": "8f24b21d8cbec116c0ba13b20fd38142119be769d297486191ab3fae6370570b"
+      },
+      "c:/users/kbc11604041/desktop/testad/erink/background.ts": {
+        "version": "05ceecac285abe68b804f2d68b8c51fc6acf4a47610e69692b767810de2867e7",
+        "signature": "aa9ca5eb497c24d2b05972d19bd9c50f24194f15cfc286176a995b192a4033fa"
+      },
+      "c:/users/kbc11604041/desktop/testad/erink/contents.ts": {
+        "version": "f83c81cba21af9c4f955ee415d40e2313aadeac98688b867a75d90407615c01f",
+        "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       }
     },
     "options": {
@@ -128,7 +136,9 @@
       "c:/users/kbc11604041/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
       "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filewriter/index.d.ts",
       "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filesystem/index.d.ts",
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/chrome/index.d.ts"
+      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/chrome/index.d.ts",
+      "c:/users/kbc11604041/desktop/testad/erink/background.ts",
+      "c:/users/kbc11604041/desktop/testad/erink/contents.ts"
     ]
   },
   "version": "3.5.2"

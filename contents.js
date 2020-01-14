@@ -3,10 +3,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, callback) {
     window.location.href = request.url;
 });
 document.addEventListener('click', function () {
-    var el = event.target;
-    var elp = el.parentElement;
-    var lsaki = el.getAttribute("href");
-    var ltxt = el.innerHTML;
+    let el = event.target;
+    let elp = el.parentElement;
+    let lsaki = el.getAttribute("href");
+    let ltxt = el.innerHTML;
     chrome.runtime.sendMessage({ "lsaki": lsaki, "ltxt": ltxt, "basedom": this.domain, "type": "main" }, function (response) {
         //ここに書いた処理はどうやら元のタブにて適用されるらしい　それもそうか。
     });
