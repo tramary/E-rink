@@ -1,0 +1,31 @@
+{
+
+    "manifest_version": 2,
+    "version": "0.0.1",
+    "name": "MyChromeExtensionTest",
+    "description": "Chrome拡張機能を自作してみるテスト",
+    "browser_action": {
+          "default_icon": "img/Rink.png",
+          "default_title": "てすと",
+          "default_popup": "popup.html"
+    },
+    "icons" : {
+       "128": "img/Rink.png"
+    },
+    "content_scripts": [
+      {
+        "matches": ["http://*/*","https://*/*"],
+        "js": ["jquery-3.4.1.min.js","contents.js"]
+      }
+    ],
+    "background": {
+      "scripts": ["background.js"],
+      "persistent":true
+    },
+    "permissions": [
+          "tabs",
+          "storage",
+          "http://*/*",
+          "https://*/*"
+    ]
+  }

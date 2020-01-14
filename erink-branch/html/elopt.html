@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/bootstrap.css">
+        <link rel="stylesheet" href="../css/bootstrap-theme.css">
+        <script src="../jquery-3.4.1.min.js"></script>
+        <script src="../elopt.js"></script>
+        <title>ER-INK オプション</title>
+    </head>
+    <body>
+        <div class="wrapper">
+        <div class="side-menu">
+            <h1>ER-INK</h1>
+            <nav>
+                <ul class="sidenav">
+                <li><a class="active" href="#home">全般</a></li>
+                <li><a href="help.html#help">ヘルプ</a></li>
+                <li><a href="contact.html#contact">コンタクト</a></li>
+                <li><a href="credit.html#credit">クレジット</a></li>
+                </ul>
+
+            </nav>
+        </div>
+        <!--end side-menu-->
+        <div class="contents">
+            <h2>全般オプション</h2>
+            <form>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                <label class="custom-control-label" for="customSwitch1">開発者オプションを表示</label>
+            </div>
+            <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                    <label class="custom-control-label" for="customSwitch2">ベータ版に切り替え</label>
+                </div>
+                <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                        <label class="custom-control-label" for="customSwitch3">ER-INKの機能をオフにする</label>
+                    </div>
+                    <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch4">
+                            <label class="custom-control-label" for="customSwitch4">自爆スイッチ</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">・リンクを辿る回数</label>
+                            <select class="form-control form-control-lg" id="CountList">
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                              <option>6</option>
+                              <option>7</option>
+                              <option>8</option>
+                              <option>9</option>
+                              <option>10</option>
+                            </select>
+                        </div>
+                    <button id="submit_b" type="button" class="btn btn-success">Success!</button>
+              </form>
+        </div>
+        <!--end contents-->
+        </div>
+        <!--end wrapper-->
+    </body>
+</html>
