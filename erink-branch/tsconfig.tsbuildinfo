@@ -65,23 +65,32 @@
         "version": "3e0a459888f32b42138d5a39f706ff2d55d500ab1031e0988b5568b0f67c2303",
         "signature": "3e0a459888f32b42138d5a39f706ff2d55d500ab1031e0988b5568b0f67c2303"
       },
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filewriter/index.d.ts": {
-        "version": "d9932f317f16ea21c183b67b73a72f17883c52933980292e7ebba2215495bb5c",
-        "signature": "d9932f317f16ea21c183b67b73a72f17883c52933980292e7ebba2215495bb5c"
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filewriter/index.d.ts": {
+        "version": "3d7a52c0226eadb60cc5b107007f429e5796a1de8d67e753ae0b7116b9f3217f",
+        "signature": "3d7a52c0226eadb60cc5b107007f429e5796a1de8d67e753ae0b7116b9f3217f"
       },
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filesystem/index.d.ts": {
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filesystem/index.d.ts": {
         "version": "40dcb6f3611671f2b9567edf67f9e5c52315663d60cdf0778baefb6007350ea3",
         "signature": "40dcb6f3611671f2b9567edf67f9e5c52315663d60cdf0778baefb6007350ea3"
       },
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/chrome/index.d.ts": {
-        "version": "8f24b21d8cbec116c0ba13b20fd38142119be769d297486191ab3fae6370570b",
-        "signature": "8f24b21d8cbec116c0ba13b20fd38142119be769d297486191ab3fae6370570b"
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/chrome/index.d.ts": {
+        "version": "1ac2e4a00745af958012997144a4899947748afcdabf87cc8844b3cfdcdea806",
+        "signature": "1ac2e4a00745af958012997144a4899947748afcdabf87cc8844b3cfdcdea806"
+      },
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/background.ts": {
+        "version": "18400c06aa302b1b9d90a4aa7816275296676e161a68c0b8d1e27a75e506bd44",
+        "signature": "aa9ca5eb497c24d2b05972d19bd9c50f24194f15cfc286176a995b192a4033fa"
+      },
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/contents.ts": {
+        "version": "4ada9af14498b7fd040e59636b5a8e0b5658c5c98f65156bde201100e6d96dee",
+        "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       }
     },
     "options": {
       "incremental": true,
       "target": 2,
       "module": 1,
+      "sourceMap": true,
       "strict": true,
       "noImplicitAny": false,
       "strictNullChecks": false,
@@ -91,22 +100,22 @@
       "noImplicitThis": false,
       "alwaysStrict": false,
       "esModuleInterop": true,
-      "configFilePath": "C:/Users/kbc11604041/Desktop/testad/erink/tsconfig.json"
+      "configFilePath": "C:/Users/kbc11604041/Desktop/testad/erink/erink-branch/tsconfig.json"
     },
     "referencedMap": {
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filesystem/index.d.ts": [
-        "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filewriter/index.d.ts"
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filesystem/index.d.ts": [
+        "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filewriter/index.d.ts"
       ],
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/chrome/index.d.ts": [
-        "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filesystem/index.d.ts"
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/chrome/index.d.ts": [
+        "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filesystem/index.d.ts"
       ]
     },
     "exportedModulesMap": {
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filesystem/index.d.ts": [
-        "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filewriter/index.d.ts"
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filesystem/index.d.ts": [
+        "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filewriter/index.d.ts"
       ],
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/chrome/index.d.ts": [
-        "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filesystem/index.d.ts"
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/chrome/index.d.ts": [
+        "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filesystem/index.d.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -126,9 +135,11 @@
       "c:/users/kbc11604041/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.reflect.d.ts",
       "c:/users/kbc11604041/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.symbol.d.ts",
       "c:/users/kbc11604041/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filewriter/index.d.ts",
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/filesystem/index.d.ts",
-      "c:/users/kbc11604041/desktop/testad/erink/node_modules/@types/chrome/index.d.ts"
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filewriter/index.d.ts",
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filesystem/index.d.ts",
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/chrome/index.d.ts",
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/background.ts",
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/contents.ts"
     ]
   },
   "version": "3.5.2"
