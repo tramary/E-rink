@@ -15,14 +15,9 @@ $(function(){
   $('#submit_b').on('click', function() {
     const selected = $("#CountList option:selected");
     const selectText = selected.text();
-    console.log("selectok");
+    //console.log("selectok");
 
     chrome.storage.local.set({count: selectText});
   });
-
-  $('#customSwitch4').on('change', function() {
-    window.alert("自爆wwwwwwww");
-  });
-
 
 });
