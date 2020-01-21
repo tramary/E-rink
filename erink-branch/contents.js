@@ -16,6 +16,30 @@ document.addEventListener('click', function () {
     });
     return true;
 });
+//タイトルが省略された時によくつくやつを削除 ...とか
+var removeExtraStr = function (str) {
+    if (str.match(/(.*)｜(.*)/)) {
+        str = str.replace(/(.*)｜(.*)/, "$1");
+        return removeExtraStr(str);
+    }
+    if (str.match(/(.*)\.\.\.$/)) {
+        str = str.replace(/(.*)\.\.\.$/, "$1");
+        return removeExtraStr(str);
+    }
+    if (str.match(/(.*)…$/)) {
+        str = str.replace(/(.*)…$/, "$1");
+        return removeExtraStr(str);
+    }
+    if (str.match(/(.*)・・・$/)) {
+        str = str.replace(/(.*)・・・$/, "$1");
+        return removeExtraStr(str);
+    }
+    return trim(str);
+};
+// 前後のスペース削除
+var trim = function (str) {
+    return str.replace(/^[\s　]+|[\s　]+$/g, "");
+};
 /*
 とりあえず必要な道具
 HTML内のリンク取得→document.queryselectall("a[href]")

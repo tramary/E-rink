@@ -51,6 +51,7 @@ chrome.storage.local.get(['count'], function(result) {
 let linksum:number = -1;
 
 async function loopcheck({lsaki,ltxt,basedom}){//string,string,htmldocument
+     ltxt=removeExtraStr(ltxt);//前後の空白とか...とか削除
      console.log(ltxt);
      console.log(lsaki);
      let endflag:boolean = false;
@@ -70,7 +71,7 @@ async function loopcheck({lsaki,ltxt,basedom}){//string,string,htmldocument
          rt = res;
          res = await httpreq(res,ltxt,basedom);
      }
-     console.log(res+"れす:RT"+rt+"さむ"+linksum);
+     console.log(res+"れす:RT"+rt+"linkたどった回数"+linksum);
     if (linksum!=-1){
         linksum=-1;
         //alert("loopend")
@@ -89,15 +90,15 @@ async function httpreq(url:string,txt:string,basedomain:string){//asyncつける
     let xhr = new XMLHttpRequest();
     let httnum:number = url.indexOf("http")
 
-    let activurl=false;//作業ここで終わってる　URL有効性チェック
+    let activurl=true;//作業ここで終わってる　URL有効性チェック
     if(httnum==0){activurl=true;}
-    if(!activurl){alert("URLがHTTPで始まってません");
+    if(!activurl){console.log("URLがHTTPで始まってません");
         if(httnum>0){url = url.slice(httnum)}
         if(httnum==-1){
-            alert("URLにHTTPが含まれていません元ドメイン"+basedomain)
+            console.log("URLにHTTPが含まれていません元ドメイン"+basedomain)
 
-            if(url.indexOf("/")==0){url="http://"+url;//urlとhttp間にbasedomainを入れるのやめてみた
-                alert("整形後URL"+url);
+            if(url.indexOf("/")==0){url="http:"+basedomain+url;//urlとhttp間にbasedomainを入れるのやめてみた
+                console.log("整形後URL"+url);
         }
     }
     }
@@ -128,3 +129,32 @@ async function httpreq(url:string,txt:string,basedomain:string){//asyncつける
     }
 })
 }
+
+
+//タイトルが省略された時によくつくやつを削除 ...とか
+var removeExtraStr = function (str) {
+    if (str.match(/(.*)｜(.*)/)) {
+        str = str.replace(/(.*)｜(.*)/, "$1");
+        return removeExtraStr(str);
+    }
+    if (str.match(/(.*)\.\.\.$/)) {
+        str = str.replace(/(.*)\.\.\.$/, "$1");
+        return removeExtraStr(str);
+    }
+    if (str.match(/(.*)…$/)) {
+        str = str.replace(/(.*)…$/, "$1");
+        return removeExtraStr(str);
+    }
+    if (str.match(/(.*)・・・$/)) {
+        str = str.replace(/(.*)・・・$/, "$1");
+        return removeExtraStr(str);
+    }
+  
+    return trim(str);
+  };
+  
+  // 前後のスペース削除
+  var trim = function(str) {
+  
+    return str.replace(/^[\s　]+|[\s　]+$/g, "");
+  }
