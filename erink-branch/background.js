@@ -89,6 +89,7 @@ function httpreq(url, txt, basedomain) {
         if (url.indexOf("//") == 0) {
             url = url.replace("//", "http://");
         } //相対表記ではなく絶対表記の場合きちんと飛べるように
+        txt = removeExtraStr(txt); //txtが省略表記かもしれないしね
         return new Promise(yield function (resolve) {
             let xhr = new XMLHttpRequest();
             let httnum = url.indexOf("http");

@@ -89,6 +89,7 @@ async function loopcheck({lsaki,ltxt,basedom}){//string,string,htmldocument
 async function httpreq(url:string,txt:string,basedomain:string){//asyncつけるのはどっちかわかんね　調べる
     console.log(url)
     if(url.indexOf("//")==0){url=url.replace("//","http://")}//相対表記ではなく絶対表記の場合きちんと飛べるように
+    txt=removeExtraStr(txt);//txtが省略表記かもしれないしね
     return new Promise(await function(resolve){
     let xhr = new XMLHttpRequest();
     
@@ -167,6 +168,7 @@ async function httpreq(url:string,txt:string,basedomain:string){//asyncつける
         let rturl = "notfound";
 
         qsa.forEach(function(q:HTMLAnchorElement){
+
             if(q.innerHTML.indexOf(txt)>-1){//リンク元テキストを含むA要素は有るか？
                 console.log("rturl代入前"+q.getAttribute("href"));
                 rturl=q.getAttribute("href");
