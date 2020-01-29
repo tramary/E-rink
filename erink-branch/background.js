@@ -18,7 +18,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 //addeventlestnerをせっていする　HTML取得後に発火する
 //取得したHTMLDOCmentはxhr.responseに格納されている
 chrome.browserAction.onClicked.addListener(function (tab) {
-    alert(tab.url);
     chrome.tabs.sendMessage(tab.id, {}, function () {
         alert("message send!");
     });
@@ -51,29 +50,34 @@ function loopcheck({ lsaki, ltxt, basedom }) {
         let endflag = false;
         let res;
         let rt;
+        let bl = basedom;
         let lcnt;
         chrome.storage.local.get(['count'], function (result) {
             lcnt = parseInt(result.count);
         });
-        res = yield httpreq(lsaki, ltxt, basedom);
+        res = yield httpreq(lsaki, ltxt, bl);
         rt = lsaki;
         while (res != "notfound") {
             //上限が来たらループ強制終了して無理やり見つからなかった扱いに
             if (linksum > lcnt) {
                 linksum = -1;
+                console.log("無限ループ");
                 break;
             }
             linksum += 1;
+            bl = rt;
             rt = res;
-            res = yield httpreq(res, ltxt, basedom);
+            res = yield httpreq(rt, ltxt, bl);
+            if (res == rt) {
+                console.log("res==rt!!");
+                break;
+            } //無限ループしそうなら抜ける
         }
-        console.log(res + "れす:RT" + rt + "さむ" + linksum);
+        console.log("RT" + rt + ":linkたどった回数" + linksum);
         if (linksum != -1) {
             linksum = -1;
-            //alert("loopend")
             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                 console.log("sendmessage" + rt);
-                // chrome.tabs.sendMessage(tabs[0].id,{url:rt},function(){})
                 chrome.tabs.create({ url: rt });
             });
         }
@@ -81,25 +85,76 @@ function loopcheck({ lsaki, ltxt, basedom }) {
 }
 function httpreq(url, txt, basedomain) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(url);
+        if (url.indexOf("//") == 0) {
+            url = url.replace("//", "http://");
+        } //相対表記ではなく絶対表記の場合きちんと飛べるように
         return new Promise(yield function (resolve) {
             let xhr = new XMLHttpRequest();
             let httnum = url.indexOf("http");
-            let activurl = true; //作業ここで終わってる　URL有効性チェック
+            let dm;
+            dm = basedomain;
+            let ssl = false;
+            let firsttxt;
+            let activurl = false; //作業ここで終わってる　URL有効性チェック
             if (httnum == 0) {
                 activurl = true;
+                ssl = false;
+                if (dm.indexOf("http://") > -1) {
+                    dm = dm.replace("http://", '');
+                }
+                else {
+                    ssl = true;
+                    dm = dm.replace("https://", '');
+                }
+                dm = dm.split('/')[0];
+                firsttxt = "http://";
+                if (ssl) {
+                    firsttxt = "https://";
+                }
             }
             if (!activurl) {
                 console.log("URLがHTTPで始まってません");
                 if (httnum > 0) {
                     url = url.slice(httnum);
+                    ssl = false;
+                    if (dm.indexOf("http://") > -1) {
+                        dm = dm.replace("http://", '');
+                    }
+                    else {
+                        ssl = true;
+                        dm = dm.replace("https://", '');
+                    }
+                    dm = dm.split('/')[0];
+                    firsttxt = "http://";
+                    if (ssl) {
+                        firsttxt = "https://";
+                    }
                 }
                 if (httnum == -1) {
                     console.log("URLにHTTPが含まれていません元ドメイン" + basedomain);
+                    if (dm.indexOf("http://") > -1) {
+                        dm = dm.replace("http://", '');
+                    }
+                    else {
+                        ssl = true;
+                        dm = dm.replace("https://", '');
+                    }
+                    dm = dm.split('/')[0];
+                    firsttxt = "http://";
+                    if (ssl) {
+                        firsttxt = "https://";
+                    }
                     if (url.indexOf("/") == 0) {
-                        url = "http:" + basedomain + url; //urlとhttp間にbasedomainを入れるのやめてみた
-                        console.log("整形後URL" + url);
+                        url = firsttxt + dm + url; //urlとhttp間にbasedomainを入れるのやめてみた
+                        console.log("上分岐整形後URL" + url);
+                    }
+                    else {
+                        url = firsttxt + dm + "/" + url;
+                        console.log("下分岐整形後URL" + url);
                     }
                 }
+                console.log("dm=" + dm + ":ft=" + firsttxt);
             }
             xhr.open("GET", url);
             xhr.responseType = "document";
@@ -112,13 +167,38 @@ function httpreq(url, txt, basedomain) {
                     let qsa = el.querySelectorAll("a");
                     let rturl = "notfound";
                     qsa.forEach(function (q) {
-                        if (q.innerHTML.indexOf(txt) > -1) {
+                        if (q.innerHTML.indexOf(txt) > -1) { //リンク元テキストを含むA要素は有るか？
                             console.log("rturl代入前" + q.getAttribute("href"));
                             rturl = q.getAttribute("href");
                         }
+                        else {
+                            let cuttxt = removeExtraStr(q.innerHTML);
+                            if (cuttxt.indexOf(txt) > -1) {
+                                console.log("逆引き成立");
+                                console.log("rturl代入前" + q.getAttribute("href"));
+                                rturl = q.getAttribute("href");
+                            }
+                        }
                     });
-                    console.log("リゾルブ" + rturl);
-                    resolve(rturl);
+                    if (rturl.indexOf("//") == 0) {
+                        rturl = rturl.replace("//", "http://");
+                    } //相対表記ではなく絶対表記の場合きちんと飛べるように
+                    if (rturl.indexOf("http") != -1) {
+                        console.log("リゾルブ" + rturl);
+                        resolve(rturl);
+                    }
+                    else if (rturl == "notfound") {
+                        console.log("リゾルブ" + rturl);
+                        resolve(rturl);
+                    }
+                    else {
+                        let baseU = el.URL;
+                        baseU = baseU.replace(firsttxt, "");
+                        baseU = baseU.split("/")[0];
+                        rturl = "" + firsttxt + baseU + rturl;
+                        console.log("リゾルブ" + rturl);
+                        resolve(rturl);
+                    }
                 }
             };
         });

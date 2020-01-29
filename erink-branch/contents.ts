@@ -17,11 +17,13 @@ document.addEventListener('click',function(this){
 
     let lsaki = el.getAttribute("href");
     let ltxt = el.innerHTML;
+    let bd = this.URL;
+    if(lsaki.indexOf(this.domain)>-1){return}//リンク先が同一ドメインならばメッセージを送らない
 
     chrome.storage.local.get(['mode'], function(result) {
       
      if(result.mode == 'on'){
-       chrome.runtime.sendMessage({"lsaki":lsaki,"ltxt":ltxt,"basedom":this.domain,"type":"main"},function(response){
+       chrome.runtime.sendMessage({"lsaki":lsaki,"ltxt":ltxt,"basedom":bd,"type":"main"},function(response){
         //ここに書いた処理はどうやら元のタブにて適用されるらしい　それもそうか。
        })
      }

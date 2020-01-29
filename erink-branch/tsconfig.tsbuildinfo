@@ -78,11 +78,11 @@
         "signature": "1ac2e4a00745af958012997144a4899947748afcdabf87cc8844b3cfdcdea806"
       },
       "c:/users/kbc11604041/desktop/testad/erink/erink-branch/background.ts": {
-        "version": "6a00028d65818636bc4a23664ba84e87bd59fce461d4022fa182fc6f974b55ef",
+        "version": "5ae61ce877758295e48a8798916f28a62cabe5e4e2d32514af7f82f5a392dac7",
         "signature": "d05cffa2d35a5c51c1113635ed79230c66ae6e7c0b90bda7010dd64c09d145d9"
       },
       "c:/users/kbc11604041/desktop/testad/erink/erink-branch/contents.ts": {
-        "version": "0d0e9ec8fdbb63fc88a3223c93a1fdded7c043aab1ada418d9722428db00a683",
+        "version": "c17d1049421bd71d0fcfafce83bbba69dbe77c34685e105655f3876df788a0b0",
         "signature": "7431ce25ee94cd1a2bb1fd9f97c97f87b9677ce93e59f7b9f4810c91b35d815e"
       }
     },
@@ -100,6 +100,7 @@
       "noImplicitThis": false,
       "alwaysStrict": false,
       "esModuleInterop": true,
+      "watch": true,
       "configFilePath": "C:/Users/kbc11604041/Desktop/testad/erink/erink-branch/tsconfig.json"
     },
     "referencedMap": {
@@ -138,8 +139,8 @@
       "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filewriter/index.d.ts",
       "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/filesystem/index.d.ts",
       "c:/users/kbc11604041/desktop/testad/erink/erink-branch/node_modules/@types/chrome/index.d.ts",
-      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/contents.ts",
-      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/background.ts"
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/background.ts",
+      "c:/users/kbc11604041/desktop/testad/erink/erink-branch/contents.ts"
     ]
   },
   "version": "3.5.2"
